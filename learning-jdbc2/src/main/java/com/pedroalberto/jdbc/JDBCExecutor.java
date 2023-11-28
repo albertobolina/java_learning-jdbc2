@@ -113,6 +113,45 @@ public class JDBCExecutor {
 			}
 			// SELECT de uma order, usando um join - fim
 			
+			
+			// SELECT de uma lista de Orders, usando um Stored Procedure ou uma SQL fucntion - ini
+			
+			OrderDAO orderDao = new OrderDAO(connection);
+			
+			List<Order> customerOrdersList = orderDao.getOrdersForCostumer(1);   //obtem uma lista das Orders de um cliente
+			
+			System.out.println("---------------------------");
+			System.out.println("Lista das Orders do cliente");
+			
+			boolean firstOrder = true;
+			
+			for (Order order : customerOrdersList) {
+			    
+				if(firstOrder) {
+					System.out.println("Nome do cliente : " + order.getCustomerLastName() + ", " + order.getCustomerLastName());
+					System.out.println("Email           : " + order.getCustomerEmail());				
+				}
+				System.out.println(" ");
+				System.out.println(" Numero de order : " + order.getOrderId());
+				System.out.println(" Data            : " + order.getCreationDate());
+				System.out.println(" Total           : " + order.getTotalDue());				
+				System.out.println(" ");
+				System.out.println(" Itens da Order");
+				
+				List<OrderLine> itensOrder = order.getOrderLines();
+				
+				for (OrderLine item : itensOrder) {
+					System.out.println(" Nome produto     : " + item.getProductName());
+					System.out.println(" Variedade        : " + item.getProductVariety());
+					System.out.println(" Quantidade       : " + item.getProductQuantity());
+					System.out.println(" Preço            : " + item.getProductPrice());
+				}
+			}
+			
+			
+			
+			// SELECT de uma lista de Orders, usando um Stored Procedure ou uma SQL fucntion - fin
+			
 		} catch (SQLException e) {
 		
 			e.printStackTrace();
